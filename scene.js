@@ -1296,12 +1296,12 @@ function simulate() {
   for (let i = 0; i < PARTICLE_COUNT && emitted < emitCount; i++) {
     if (lifetimes[i] <= 0) {
       const i3 = i * 3;
-      positions[i3] = emitterPos.x + (Math.random() - 0.5) * 1.5;
+      positions[i3] = emitterPos.x + (Math.random() - 0.5) * 0.4;
       positions[i3 + 1] = emitterPos.y + Math.random() * 0.3;
-      positions[i3 + 2] = emitterPos.z + (Math.random() - 0.5) * 1.5;
-      velocities[i3] = (Math.random() - 0.5) * 0.1;
-      velocities[i3 + 1] = -0.08 - Math.random() * 0.12;
-      velocities[i3 + 2] = (Math.random() - 0.5) * 0.1;
+      positions[i3 + 2] = emitterPos.z + (Math.random() - 0.5) * 0.4;
+      velocities[i3] = (Math.random() - 0.5) * 0.02;
+      velocities[i3 + 1] = -0.08 - Math.random() * 0.04;
+      velocities[i3 + 2] = (Math.random() - 0.5) * 0.02;
       lifetimes[i] = PARTICLE_LIFETIME;
       emitted++;
     }
