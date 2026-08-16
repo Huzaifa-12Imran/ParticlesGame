@@ -1055,9 +1055,15 @@ function sdfBox(px, py, pz, obs) {
   const sdf = Math.sqrt(outsideX * outsideX + outsideY * outsideY + outsideZ * outsideZ) + insideDist;
 
   let nlx = 0, nly = 0, nlz = 0;
-  if (qx > qy && qx > qz) nlx = lx > 0 ? 1 : -1;
-  else if (qy > qx && qy > qz) nly = ly > 0 ? 1 : -1;
-  else nlz = lz > 0 ? 1 : -1;
+  if (sdf > 0) {
+    nlx = outsideX > 0 ? (lx > 0 ? outsideX : -outsideX) : 0;
+    nly = outsideY > 0 ? (ly > 0 ? outsideY : -outsideY) : 0;
+    nlz = outsideZ > 0 ? (lz > 0 ? outsideZ : -outsideZ) : 0;
+  } else {
+    if (qx > qy && qx > qz) nlx = lx > 0 ? 1 : -1;
+    else if (qy > qx && qy > qz) nly = ly > 0 ? 1 : -1;
+    else nlz = lz > 0 ? 1 : -1;
+  }
 
   // Transform normal from local to world space
   const e = mesh.matrixWorld.elements;
@@ -1087,9 +1093,15 @@ function sdfRamp(px, py, pz, obs) {
   const insideDist = Math.min(Math.max(qx, qy, qz), 0);
   const sdf = Math.sqrt(outsideX * outsideX + outsideY * outsideY + outsideZ * outsideZ) + insideDist;
   let nlx = 0, nly = 0, nlz = 0;
-  if (qy > qx && qy > qz) nly = ly > 0 ? 1 : -1;
-  else if (qx > qz) nlx = lx > 0 ? 1 : -1;
-  else nlz = lz > 0 ? 1 : -1;
+  if (sdf > 0) {
+    nlx = outsideX > 0 ? (lx > 0 ? outsideX : -outsideX) : 0;
+    nly = outsideY > 0 ? (ly > 0 ? outsideY : -outsideY) : 0;
+    nlz = outsideZ > 0 ? (lz > 0 ? outsideZ : -outsideZ) : 0;
+  } else {
+    if (qy > qx && qy > qz) nly = ly > 0 ? 1 : -1;
+    else if (qx > qz) nlx = lx > 0 ? 1 : -1;
+    else nlz = lz > 0 ? 1 : -1;
+  }
   const e = mesh.matrixWorld.elements;
   const nx = e[0] * nlx + e[4] * nly + e[8] * nlz;
   const ny = e[1] * nlx + e[5] * nly + e[9] * nlz;
@@ -1480,6 +1492,7 @@ function onLevelWin() {
 }
 
 function onLevelFail() {
+  if (!isPlaying) return;
   isPlaying = false;
   failCount++;
   playFailSound();
@@ -1623,8 +1636,11 @@ function getScreenPos(obj) {
 // Quaternion for rotation accumulation
 const _rotQuat = new THREE.Quaternion();
 const _axisVec = new THREE.Vector3();
+let lastMouseY = 0;
 
 renderer.domElement.addEventListener('pointermove', (e) => {
+  const deltaY = e.clientY - lastMouseY;
+  lastMouseY = e.clientY;
   if (isRotating && selectedObstacle && activeRotAxis) {
     const mesh = selectedObstacle.mesh;
     // Get the obstacle center on screen
@@ -1675,6 +1691,14 @@ renderer.domElement.addEventListener('pointermove', (e) => {
   }
 
   if (draggedObstacle) {
+    if (e.altKey || e.ctrlKey || e.metaKey) {
+      draggedObstacle.elevation -= deltaY * 0.1;
+      draggedObstacle.elevation = Math.max(0.5, Math.min(30, draggedObstacle.elevation));
+      draggedObstacle.mesh.position.y = draggedObstacle.elevation;
+      draggedObstacle.mesh.updateMatrixWorld(true);
+      if (selectedObstacle === draggedObstacle) updateHelperTransform();
+      return;
+    }
     // Use a horizontal plane at the obstacle's Y for more accurate dragging
     const dragPlaneY = draggedObstacle.mesh.position.y;
     const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -dragPlaneY);
@@ -1706,6 +1730,7 @@ renderer.domElement.addEventListener('pointermove', (e) => {
 });
 
 renderer.domElement.addEventListener('pointerdown', (e) => {
+  lastMouseY = e.clientY;
   if (isPlaying) return;
   if (e.button !== 0) return;
 
@@ -2591,6 +2616,7 @@ uiContainer.innerHTML = `
       <div class="help-section">
         <div class="help-title">Controls</div>
         <div class="help-row"><span class="help-key">drag</span> Move a blue ramp</div>
+        <div class="help-row"><span class="help-key">Alt+drag</span> Move up / down</div>
         <div class="help-row"><span class="help-key">dbl‑click</span> Show rotation rings</div>
         <div class="help-row"><span class="help-key">Shift</span> Snap to grid</div>
         <div class="help-row"><span class="help-key">Del</span> / <span class="help-key">C</span> Delete / Clone selected</div>
