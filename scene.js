@@ -2306,7 +2306,7 @@ uiContainer.innerHTML = `
     }
 
     /* Buttons */
-    .btn-row { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: 8px; margin-bottom: 10px; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; margin-bottom: 10px; }
     .redirect-btn {
       width: 46px; height: 46px;
       border: 1.5px solid #e05080; border-radius: 14px;
@@ -2328,6 +2328,7 @@ uiContainer.innerHTML = `
     .movers-btn:hover { border-color: var(--terra); background: rgba(196,113,74,0.1); color: var(--terra-deep); }
     .movers-btn.paused { background: rgba(196,113,74,0.18); border-color: var(--terra); color: var(--terra-deep); }
     .play-btn {
+      width: 100%;
       padding: 13px 0; border: none; border-radius: 14px;
       background: linear-gradient(160deg, var(--sage-light) 0%, var(--sage-dark) 100%);
       color: #fff;
