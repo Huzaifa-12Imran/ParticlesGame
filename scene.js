@@ -2474,31 +2474,77 @@ uiContainer.innerHTML = `
     /* Win overlay */
     .win-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(58,46,36,0.6);
-      backdrop-filter: blur(12px) saturate(1.2);
+      background: rgba(4,8,20,0.75);
+      backdrop-filter: blur(18px) saturate(1.4);
       z-index: 1000; flex-direction: column;
       align-items: center; justify-content: center;
       font-family: 'DM Sans', sans-serif;
+      animation: overlayFadeIn 0.4s ease both;
     }
+    @keyframes overlayFadeIn { from { opacity:0 } to { opacity:1 } }
     .win-box {
-      background: var(--mist); border: 1px solid var(--sand-dark);
-      border-radius: 24px; padding: 36px 44px; text-align: center;
-      box-shadow: 0 24px 60px rgba(58,46,36,0.25), inset 0 1px 0 rgba(255,255,255,0.8);
-      max-width: 340px;
+      position: relative;
+      background: linear-gradient(145deg, rgba(18,26,52,0.95) 0%, rgba(10,14,30,0.98) 100%);
+      border: 1px solid rgba(100,160,255,0.2);
+      border-radius: 28px; padding: 44px 52px; text-align: center;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(80,140,255,0.08);
+      max-width: 380px; overflow: hidden;
+      animation: winSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
     }
-    .win-badge { font-size: 48px; margin-bottom: 12px; animation: winBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both; }
-    @keyframes winBounce { 0%,100%{transform:scale(1)} 30%{transform:scale(1.25) rotate(-5deg)} 60%{transform:scale(0.9) rotate(3deg)} }
-    .win-title { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-    .win-subtitle { font-size: 13px; color: var(--warm-brown-light); margin-bottom: 20px; }
-    .win-stats { display: flex; gap: 16px; justify-content: center; margin-bottom: 22px; }
-    .win-stat-card { background: rgba(255,255,255,0.6); border: 1px solid var(--sand); border-radius: 12px; padding: 10px 16px; min-width: 72px; }
-    .win-stat-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--warm-brown-light); margin-bottom: 4px; }
-    .win-stat-value { font-size: 22px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
-    .win-btn { padding: 11px 24px; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; margin: 0 5px; transition: all 0.2s ease; }
-    .win-btn.secondary { background: rgba(255,255,255,0.6); color: var(--warm-brown); border: 1.5px solid var(--sand-dark); }
-    .win-btn.secondary:hover { background: rgba(255,255,255,0.9); transform: translateY(-1px); }
-    .win-btn.primary { background: linear-gradient(135deg, var(--terra-light), var(--terra-deep)); color: #fff; box-shadow: 0 3px 12px rgba(196,113,74,0.35); }
-    .win-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(196,113,74,0.4); }
+    @keyframes winSlideUp { from { transform: translateY(40px) scale(0.95); opacity:0 } to { transform: none; opacity:1 } }
+    .win-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% -10%, rgba(80,160,255,0.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .win-badge {
+      font-size: 64px; margin-bottom: 16px; display: block;
+      animation: trophySpin 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
+      filter: drop-shadow(0 0 24px rgba(255,200,50,0.5));
+    }
+    @keyframes trophySpin { from { transform: scale(0.3) rotate(-20deg); opacity:0 } to { transform: scale(1) rotate(0deg); opacity:1 } }
+    .win-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px; font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 6px; line-height: 1.1;
+    }
+    .win-subtitle { font-size: 13px; color: rgba(180,200,255,0.6); margin-bottom: 24px; letter-spacing: 0.3px; }
+    .win-stars { font-size: 30px; margin-bottom: 24px; letter-spacing: 6px; animation: starsIn 0.6s 0.3s ease both; }
+    @keyframes starsIn { from { transform: scale(0.5); opacity:0 } to { transform: scale(1); opacity:1 } }
+    .win-stats { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; }
+    .win-stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 12px 18px; min-width: 80px;
+      backdrop-filter: blur(4px);
+    }
+    .win-stat-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(150,180,255,0.7); margin-bottom: 6px; }
+    .win-stat-value { font-size: 26px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; line-height: 1; }
+    .win-actions { display: flex; gap: 10px; justify-content: center; }
+    .win-btn {
+      padding: 13px 26px; border: none; border-radius: 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.2px;
+    }
+    .win-btn.secondary {
+      background: rgba(255,255,255,0.08);
+      color: rgba(200,220,255,0.85);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .win-btn.secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+    .win-btn.primary {
+      background: linear-gradient(135deg, #4a9eff 0%, #1a6fff 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(74,158,255,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+    .win-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(74,158,255,0.5); }
+    /* Fail box accent */
+    .fail-box .win-box { border-color: rgba(255,80,80,0.25); box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(255,80,80,0.08); }
+    .fail-box .win-box::before { background: radial-gradient(ellipse at 50% -10%, rgba(255,80,80,0.15) 0%, transparent 65%); }
+    .fail-btn { background: linear-gradient(135deg, #ff5555 0%, #cc2222 100%) !important; box-shadow: 0 4px 20px rgba(255,80,80,0.4) !important; }
 
     /* FPS */
     .fps-display {
@@ -2628,10 +2674,10 @@ uiContainer.innerHTML = `
   <!-- Win overlay -->
   <div class="win-overlay" id="winOverlay">
     <div class="win-box">
-      <div class="win-badge">🏆</div>
+      <span class="win-badge">🏆</span>
       <div class="win-title">Level Complete!</div>
       <div class="win-subtitle">All particles captured — well done!</div>
-      <div id="winStars" style="font-size: 24px; margin-bottom: 15px; letter-spacing: 5px; text-shadow: 0 2px 8px rgba(0,0,0,0.1);">⭐⭐⭐</div>
+      <div class="win-stars" id="winStars">⭐⭐⭐</div>
       <div class="win-stats">
         <div class="win-stat-card">
           <div class="win-stat-label">Captured</div>
@@ -2646,19 +2692,22 @@ uiContainer.innerHTML = `
           <div class="win-stat-value" id="winBest">--</div>
         </div>
       </div>
-      <button class="win-btn secondary" id="winRetry">↺ Retry</button>
-      <button class="win-btn primary" id="winNext">Next Level →</button>
+      <div class="win-actions">
+        <button class="win-btn secondary" id="winRetry">↺ Retry</button>
+        <button class="win-btn primary" id="winNext">Next Level →</button>
+      </div>
     </div>
   </div>
 
   <!-- Fail Overlay -->
-  <div class="win-overlay" id="failOverlay">
+  <div class="win-overlay fail-box" id="failOverlay">
     <div class="win-box">
-      <div class="win-badge" style="filter: hue-rotate(180deg) brightness(0.9);">💥</div>
-      <div class="win-title" style="color: var(--terra-deep);">Spill Limit Exceeded</div>
-      <div class="win-subtitle">Too many particles were lost! Adjust your ramps and try again.</div>
-      <br>
-      <button class="win-btn primary" id="failRetry" style="width: 100%;">↺ Try Again</button>
+      <span class="win-badge" style="filter:drop-shadow(0 0 20px rgba(255,80,80,0.6))">💧</span>
+      <div class="win-title" style="background:linear-gradient(135deg,#ff8080,#ff3333);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Too Much Spilled!</div>
+      <div class="win-subtitle">Adjust your ramps and try to contain the flow.</div>
+      <div class="win-actions" style="margin-top:8px;">
+        <button class="win-btn primary fail-btn" id="failRetry" style="width:100%;padding:14px 0;">↺ Try Again</button>
+      </div>
     </div>
   </div>
 
