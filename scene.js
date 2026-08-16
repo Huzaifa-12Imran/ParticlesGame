@@ -732,14 +732,24 @@ function updateAngleDisplay() {
 // ── Levels ──
 const levels = [
   {
-    name: "The Funnel",
-    description: "Guide particles down into the exit hole!",
-    goal: 5000, spillLimit: 2000, timeTarget: 15.0,
+    name: "The Basics",
+    description: "Start here: Just rotate the ramp to guide particles!",
+    goal: 2000, spillLimit: 8000, timeTarget: 20.0,
     emitter: { x: 0, y: 16, z: -8 },
-    exit: { x: 8, z: 8, radius: 2.5 },
+    exit: { x: 0, z: 8, radius: 4.0 },
+    fixedObstacles: [],
+    playerObstacles: [
+      { type: 'ramp', x: 0, z: 0, params: { width: 10, depth: 4, height: 0.35, elevation: 8, rotX: -0.1 } },
+    ],
+  },
+  {
+    name: "The Funnel",
+    description: "A gentle introduction to multiple obstacles.",
+    goal: 4000, spillLimit: 4000, timeTarget: 15.0,
+    emitter: { x: 0, y: 16, z: -8 },
+    exit: { x: 8, z: 8, radius: 3.5 },
     fixedObstacles: [
       { type: 'cylinder', x: -5, z: 0, params: { radius: 1.5, height: 4 } },
-      { type: 'cylinder', x: 5, z: -4, params: { radius: 1.2, height: 5 } },
       { type: 'box', x: 0, z: 5, params: { width: 8, height: 1.5, depth: 1 } },
     ],
     playerObstacles: [
@@ -750,9 +760,9 @@ const levels = [
   {
     name: "Zigzag Path",
     description: "Angle the ramps to bounce particles across!",
-    goal: 5000, spillLimit: 1500, timeTarget: 18.0,
+    goal: 5000, spillLimit: 3000, timeTarget: 18.0,
     emitter: { x: -10, y: 18, z: -10 },
-    exit: { x: 10, z: 10, radius: 2.5 },
+    exit: { x: 10, z: 10, radius: 3.0 },
     fixedObstacles: [
       { type: 'box', x: 0, z: 0, params: { width: 2, height: 6, depth: 2 } },
       { type: 'cylinder', x: -8, z: 8, params: { radius: 1.8, height: 3 } },
@@ -766,27 +776,25 @@ const levels = [
   {
     name: "The Cascade",
     description: "Build a waterfall path through the pillars!",
-    goal: 5000, spillLimit: 2000, timeTarget: 22.0,
+    goal: 5500, spillLimit: 2500, timeTarget: 22.0,
     emitter: { x: 0, y: 20, z: 0 },
-    exit: { x: -10, z: -10, radius: 3 },
+    exit: { x: -10, z: -10, radius: 2.5 },
     fixedObstacles: [
       { type: 'cylinder', x: -4, z: -4, params: { radius: 1, height: 8 } },
       { type: 'cylinder', x: 4, z: 4, params: { radius: 1, height: 8 } },
       { type: 'cylinder', x: 4, z: -4, params: { radius: 1.2, height: 6 } },
       { type: 'cylinder', x: -4, z: 4, params: { radius: 1.2, height: 6 } },
-      { type: 'sphere', x: 0, z: -8, params: { radius: 2 } },
     ],
     playerObstacles: [
       { type: 'ramp', x: 0, z: 0, params: { width: 6, depth: 3, height: 0.35, elevation: 14, rotX: -0.3, rotY: -0.7 } },
       { type: 'ramp', x: -4, z: -2, params: { width: 7, depth: 3, height: 0.35, elevation: 10, rotX: -0.25, rotY: -0.5 } },
       { type: 'ramp', x: -7, z: -6, params: { width: 6, depth: 2.5, height: 0.35, elevation: 6, rotX: -0.2, rotY: -0.3 } },
-      { type: 'ramp', x: -3, z: 5, params: { width: 5, depth: 2, height: 0.35, elevation: 3, rotX: -0.15 } },
     ],
   },
   {
     name: "Precision Drop",
     description: "Only one ramp — make it count!",
-    goal: 5000, spillLimit: 1000, timeTarget: 10.0,
+    goal: 6000, spillLimit: 2000, timeTarget: 10.0,
     emitter: { x: -8, y: 14, z: 0 },
     exit: { x: 8, z: 0, radius: 2 },
     fixedObstacles: [
@@ -799,9 +807,9 @@ const levels = [
   {
     name: "The Gauntlet",
     description: "Navigate through a maze of obstacles!",
-    goal: 6000, spillLimit: 3000, timeTarget: 25.0,
+    goal: 6500, spillLimit: 1500, timeTarget: 25.0,
     emitter: { x: 0, y: 22, z: -12 },
-    exit: { x: 0, z: 12, radius: 2.6 },
+    exit: { x: 0, z: 12, radius: 2.0 },
     fixedObstacles: [
       { type: 'box', x: -6, z: -6, params: { width: 3, height: 4, depth: 1 } },
       { type: 'box', x: 6, z: -6, params: { width: 3, height: 4, depth: 1 } },
@@ -821,9 +829,9 @@ const levels = [
   {
     name: "Pendulum Alley",
     description: "Swinging pillars guard the path — time your ramps!",
-    goal: 6500, spillLimit: 3500, timeTarget: 30.0,
+    goal: 7000, spillLimit: 1000, timeTarget: 30.0,
     emitter: { x: 0, y: 20, z: -12 },
-    exit: { x: 0, z: 12, radius: 2.3 },
+    exit: { x: 0, z: 12, radius: 1.8 },
     fixedObstacles: [
       { type: 'cylinder', x: -5, z: -2, params: { radius: 1.3, height: 6, moving: true, moveAxis: 'x', moveRange: 4, moveSpeed: 0.9 } },
       { type: 'cylinder', x: 5, z: 2, params: { radius: 1.3, height: 6, moving: true, moveAxis: 'x', moveRange: 4, moveSpeed: 1.1 } },
@@ -838,9 +846,9 @@ const levels = [
   {
     name: "Narrow Funnel",
     description: "A tiny exit demands pinpoint accuracy!",
-    goal: 7000, spillLimit: 1500, timeTarget: 22.0,
+    goal: 7500, spillLimit: 800, timeTarget: 22.0,
     emitter: { x: -6, y: 20, z: -6 },
-    exit: { x: 9, z: 9, radius: 1.6 },
+    exit: { x: 9, z: 9, radius: 1.4 },
     fixedObstacles: [
       { type: 'cylinder', x: 0, z: 0, params: { radius: 1.5, height: 6 } },
       { type: 'cylinder', x: -6, z: 6, params: { radius: 1.2, height: 5 } },
@@ -855,9 +863,9 @@ const levels = [
   {
     name: "Twin Chutes",
     description: "Moving blockers guard two narrow chutes!",
-    goal: 7500, spillLimit: 2500, timeTarget: 28.0,
+    goal: 8000, spillLimit: 500, timeTarget: 28.0,
     emitter: { x: 0, y: 22, z: -14 },
-    exit: { x: 0, z: 13, radius: 2.0 },
+    exit: { x: 0, z: 13, radius: 1.3 },
     fixedObstacles: [
       { type: 'box', x: -3, z: 0, params: { width: 1.2, height: 7, depth: 1.2, moving: true, moveAxis: 'z', moveRange: 5, moveSpeed: 1.2 } },
       { type: 'box', x: 3, z: 0, params: { width: 1.2, height: 7, depth: 1.2, moving: true, moveAxis: 'z', moveRange: 5, moveSpeed: 1.4 } },
@@ -871,16 +879,16 @@ const levels = [
   },
   {
     name: "The Crucible",
-    description: "Final trial: a tight exit, movers, and a maze!",
-    goal: 8500, spillLimit: 4000, timeTarget: 35.0,
+    description: "Final trial: tight exit, fast movers, tiny spill limit!",
+    goal: 10000, spillLimit: 100, timeTarget: 35.0,
     emitter: { x: 0, y: 24, z: -13 },
-    exit: { x: 0, z: 13, radius: 1.8 },
+    exit: { x: 0, z: 13, radius: 1.0 },
     fixedObstacles: [
       { type: 'box', x: -7, z: -6, params: { width: 3, height: 5, depth: 1 } },
       { type: 'box', x: 7, z: -6, params: { width: 3, height: 5, depth: 1 } },
-      { type: 'cylinder', x: 0, z: -1, params: { radius: 2, height: 6, moving: true, moveAxis: 'x', moveRange: 3.5, moveSpeed: 1.3 } },
-      { type: 'sphere', x: -4, z: 5, params: { radius: 1.6, moving: true, moveAxis: 'z', moveRange: 3, moveSpeed: 1.0 } },
-      { type: 'sphere', x: 4, z: 5, params: { radius: 1.6, moving: true, moveAxis: 'z', moveRange: 3, moveSpeed: 1.2 } },
+      { type: 'cylinder', x: 0, z: -1, params: { radius: 2, height: 6, moving: true, moveAxis: 'x', moveRange: 4.0, moveSpeed: 1.8 } },
+      { type: 'sphere', x: -4, z: 5, params: { radius: 1.6, moving: true, moveAxis: 'z', moveRange: 3.5, moveSpeed: 1.5 } },
+      { type: 'sphere', x: 4, z: 5, params: { radius: 1.6, moving: true, moveAxis: 'z', moveRange: 3.5, moveSpeed: 1.6 } },
       { type: 'box', x: 0, z: 9, params: { width: 8, height: 3, depth: 1 } },
     ],
     playerObstacles: [
@@ -889,7 +897,7 @@ const levels = [
       { type: 'ramp', x: 4, z: 1, params: { width: 6, depth: 2.5, height: 0.35, elevation: 7, rotX: -0.2, rotY: -0.4 } },
       { type: 'ramp', x: 0, z: 6, params: { width: 6, depth: 2.5, height: 0.35, elevation: 3, rotX: -0.15 } },
     ],
-  },
+  }
 ];
 
 function clearLevel() {
