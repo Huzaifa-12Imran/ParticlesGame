@@ -624,8 +624,8 @@ function createRotationHelper() {
   const group = new THREE.Group();
   group.name = 'rotationHelper';
 
-  // Y-axis ring (green) — thicker tube for easier picking
-  const ringGeoY = new THREE.TorusGeometry(2.5, 0.18, 12, 48);
+  // Y-axis ring (green) — thinner tube for easier picking of the object
+  const ringGeoY = new THREE.TorusGeometry(2.5, 0.06, 12, 48);
   const ringMatY = new THREE.MeshStandardNodeMaterial();
   ringMatY.colorNode = color(0x44ff88);
   ringMatY.emissiveNode = color(0x22aa44);
@@ -635,8 +635,8 @@ function createRotationHelper() {
   ringY.rotation.x = Math.PI / 2;
   group.add(ringY);
 
-  // X-axis ring (red) — thicker
-  const ringGeoX = new THREE.TorusGeometry(2.5, 0.18, 12, 48);
+  // X-axis ring (red) — thinner
+  const ringGeoX = new THREE.TorusGeometry(2.5, 0.06, 12, 48);
   const ringMatX = new THREE.MeshStandardNodeMaterial();
   ringMatX.colorNode = color(0xff4466);
   ringMatX.emissiveNode = color(0xaa2233);
@@ -646,8 +646,8 @@ function createRotationHelper() {
   ringX.rotation.y = Math.PI / 2;
   group.add(ringX);
 
-  // Z-axis ring (blue) — thicker
-  const ringGeoZ = new THREE.TorusGeometry(2.5, 0.18, 12, 48);
+  // Z-axis ring (blue) — thinner
+  const ringGeoZ = new THREE.TorusGeometry(2.5, 0.06, 12, 48);
   const ringMatZ = new THREE.MeshStandardNodeMaterial();
   ringMatZ.colorNode = color(0x4488ff);
   ringMatZ.emissiveNode = color(0x2244aa);
@@ -706,7 +706,7 @@ function updateHelperTransform() {
   rotationHelper.rotation.copy(m.rotation);
   // Scale helper based on obstacle size
   let s = 1;
-  if (selectedObstacle.type === 'ramp') s = Math.max(selectedObstacle.width, selectedObstacle.depth) * 0.25;
+  if (selectedObstacle.type === 'ramp') s = Math.max(selectedObstacle.width, selectedObstacle.depth) * 0.35;
   else if (selectedObstacle.type === 'cylinder') s = selectedObstacle.radius * 0.8;
   else if (selectedObstacle.type === 'box') s = Math.max(selectedObstacle.hw, selectedObstacle.hd) * 0.8;
   else if (selectedObstacle.type === 'sphere') s = selectedObstacle.radius * 0.8;
